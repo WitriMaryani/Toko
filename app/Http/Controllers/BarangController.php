@@ -47,7 +47,7 @@ class BarangController extends Controller
         $barang->harga_beli = $request->e;
         $barang->total_harga = $request->f;
         $barang->save();
-        return redirect('barang');
+        return redirect()->route('barang.index');
     }
 
     /**

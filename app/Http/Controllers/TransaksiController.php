@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Transaksi;
 
 class TransaksiController extends Controller
 {
@@ -14,6 +15,8 @@ class TransaksiController extends Controller
     public function index()
     {
         //
+        $transaksi = Transaksi::all();
+        return view('transaksi.index',compact('transaksi'));
     }
 
     /**
@@ -24,6 +27,7 @@ class TransaksiController extends Controller
     public function create()
     {
         //
+        return view('transaksi.create');
     }
 
     /**
@@ -35,6 +39,10 @@ class TransaksiController extends Controller
     public function store(Request $request)
     {
         //
+        $transaksi = new Transaksi;
+        $transaksi->nama = $request->a;
+        $transaksi->save();
+        return redirect('transaksi');
     }
 
     /**
@@ -57,6 +65,8 @@ class TransaksiController extends Controller
     public function edit($id)
     {
         //
+        $transaksi = Transaksi::findOrFail($id);
+        return view('transaksi.edit',compact('transaksi'));
     }
 
     /**
@@ -69,6 +79,10 @@ class TransaksiController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $transaksi = Transaksi::findOrFail($id);
+        $transaksi->nama = $request->a;
+        $transaksi->save();
+        return redirect('transaksi');
     }
 
     /**
@@ -80,5 +94,8 @@ class TransaksiController extends Controller
     public function destroy($id)
     {
         //
+        $transaksi = Transaksi::findOrFail($id);
+        $transaksi->delete();
+        return redirect('transaksi');
     }
 }

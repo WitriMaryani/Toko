@@ -17,7 +17,7 @@ class CreateBarangsTable extends Migration
             $table->increments('id');
             $table->string('nama');
             $table->integer('stock');
-            $table->string('satuan');
+            $table->integer('satuan');
             $table->integer('harga_jual');
             $table->integer('harga_beli');
             $table->integer('total_harga');

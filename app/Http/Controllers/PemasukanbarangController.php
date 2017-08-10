@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Pemasukanbarang;
 
 class PemasukanbarangController extends Controller
 {
@@ -14,6 +15,8 @@ class PemasukanbarangController extends Controller
     public function index()
     {
         //
+        $pemasukan = Pemasukanbarang::all();
+        return view('pemasukan.index',compact('pemasukan'));
     }
 
     /**
@@ -24,6 +27,7 @@ class PemasukanbarangController extends Controller
     public function create()
     {
         //
+        return view('pemasukan.create');
     }
 
     /**
@@ -35,6 +39,10 @@ class PemasukanbarangController extends Controller
     public function store(Request $request)
     {
         //
+        $pemasukan = new Pemasukanbarang;
+        $pemasukan->nama = $request->a;
+        $pemasukan->save();
+        return redirect('pemasukan');
     }
 
     /**
@@ -57,6 +65,8 @@ class PemasukanbarangController extends Controller
     public function edit($id)
     {
         //
+        $pemasukan = Pemasukanbarang::findOrFail($id);
+        return view('pemasukan.edit',compact('pemasukan'));
     }
 
     /**
@@ -69,6 +79,10 @@ class PemasukanbarangController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $pemasukan = Pemasukanbarang::findOrFail($id);
+        $pemasukan->nama = $request->a;
+        $pemasukan->save();
+        return redirect('pemasukan');
     }
 
     /**
@@ -80,5 +94,8 @@ class PemasukanbarangController extends Controller
     public function destroy($id)
     {
         //
+        $pemasukan = Pemasukanbarang::findOrFail($id);
+        $pemasukan->delete();
+        return redirect('pemasukan');
     }
 }

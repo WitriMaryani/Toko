@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Pelanggan;
 
 class PelangganController extends Controller
 {
@@ -14,6 +15,8 @@ class PelangganController extends Controller
     public function index()
     {
         //
+        $pelanggan = Pelanggan::all();
+        return view('pelanggan.index',compact('pelanggan'));
     }
 
     /**
@@ -24,6 +27,7 @@ class PelangganController extends Controller
     public function create()
     {
         //
+        return view('pelanggan.index');
     }
 
     /**
@@ -35,6 +39,10 @@ class PelangganController extends Controller
     public function store(Request $request)
     {
         //
+        $pelanggan = new Pelanggan;
+        $pelanggan->nama = $request->a;
+        $pelanggan->save();
+        return redirect()->route('pelanggan.index');
     }
 
     /**
@@ -57,6 +65,8 @@ class PelangganController extends Controller
     public function edit($id)
     {
         //
+        $pelanggan = Pelanggan::findOrFail($id);
+        return view('pelanggan.edit',compact('pelanggan'));
     }
 
     /**
@@ -69,6 +79,10 @@ class PelangganController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $pelanggan = Pelanggan::findOrFail($id);
+        $pelanggan->nama = $request->a;
+        $pelanggan->save();
+        return redirect('pelanggan');
     }
 
     /**
@@ -80,5 +94,8 @@ class PelangganController extends Controller
     public function destroy($id)
     {
         //
+        $pelanggan = Pelanggan::findOrFail($id);
+        $pelanggan->delete();
+        return redirect('pelanggan');
     }
 }

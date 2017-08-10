@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Supplier;
 
 class SupplierController extends Controller
 {
@@ -14,6 +15,8 @@ class SupplierController extends Controller
     public function index()
     {
         //
+        $supplier = Supplier::all();
+        return view('supplier.index',compact('supplier'));
     }
 
     /**
@@ -24,6 +27,7 @@ class SupplierController extends Controller
     public function create()
     {
         //
+        return view('supplier.create');
     }
 
     /**
@@ -35,6 +39,10 @@ class SupplierController extends Controller
     public function store(Request $request)
     {
         //
+        $supplier = new Supplier;
+        $supplier->nama = $request->a;
+        $supplier->save();
+        return redirect()->route('pelanggan.index');
     }
 
     /**
@@ -57,6 +65,8 @@ class SupplierController extends Controller
     public function edit($id)
     {
         //
+        $supplier = Supplier::findOrFail($id);
+        return view('supplier.edit',compact('supplier'));
     }
 
     /**
@@ -69,6 +79,10 @@ class SupplierController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $supplier = Supplier::findOrFail($id);
+        $supplier->nama = $request->a;
+        $supplier->save();
+        return redirect('supplier');
     }
 
     /**
@@ -80,5 +94,8 @@ class SupplierController extends Controller
     public function destroy($id)
     {
         //
+        $supplier = Supplier::findOrFail($id);
+        $supplier->delete();
+        return redirect('supplier');
     }
 }

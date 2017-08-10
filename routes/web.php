@@ -19,7 +19,13 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::resource('karyawan','KaryawanController');
-Route::resource('barang','BarangController');	
-Route::resource('pelanggan','PelangganController');
-Route::resource('transaksi','TransaksiController');
+
+
+Route::group(['prefix'=>'pemilik','middleware'=>['auth','role:admin']], function(){
+	Route::resource('karyawan','KaryawanController');
+});
+Route::group(['prefix'=>'karyawan','middleware'=>['auth','role:karyawan']], function(){
+	Route::resource('barang','BarangController');	
+	Route::resource('pelanggan','PelangganController');
+	Route::resource('transaksi','TransaksiController');
+});

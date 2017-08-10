@@ -20,8 +20,20 @@
 					<input type="number" name="b" class="form-control" required="">
 				</div>
 				<div class="form-group">
+					<label class="control-lable">Satuan</label>
+					<input type="text" name="c" class="form-control" required="">
+				</div>
+				<div class="form-group">
 					<label class="control-lable">Harga Jual</label>
-					<input type="number" name="c" class="form-control" required="">
+					<input type="number" name="d" class="form-control" required="">
+				</div>
+				<div class="form-group">
+					<label class="control-lable">Harga Beli</label>
+					<input type="number" name="e" class="form-control" required="">
+				</div>
+				<div class="form-group">
+					<label class="control-lable">Total Harga</label>
+					<input type="number" name="f"  class="form-control" required="">
 				</div>
 				<div class="form-group">
 					<button type="submit" class="btn btn-success">Simpan</button>

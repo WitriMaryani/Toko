@@ -36,7 +36,17 @@
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
-                        &nbsp;
+                        @if (Auth::check())
+                        <li><a href="{{ url('/home')}}">Dashboard</a></li>
+                        @endif
+                        @role('pemilik')
+                        <li><a href="{{route('karyawan.index')}}">Karyawan</a></li>
+                        @endrole
+                        @role('karyawan')
+                        <li><a href="{{route('pelanggan.index')}}">Pelanggan</a></li>
+                        <li><a href="{{route('barang.index')}}">Barang</a></li>
+                        <li><a href="{{route('transaksi.index')}}">Transaksi</a></li>
+                        @endrole
                     </ul>
 
                     <!-- Right Side Of Navbar -->
