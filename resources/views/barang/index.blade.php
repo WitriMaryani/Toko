@@ -1,7 +1,6 @@
 @extends('layouts.app')
 @section('content')
 
-
 <div class="row">
 <div class="container">
 	<center><h1>Tambah Data Barang</h1></center>
@@ -13,27 +12,15 @@
 				{{csrf_field()}}
 				<div class="form-group">
 					<label class="control-lable">Nama Barang</label>
-					<input type="text" name="a" class="form-control" required="">
+					<input type="text" name="nama" class="form-control" required="">
 				</div>
 				<div class="form-group">
 					<label class="control-lable">Stock</label>
-					<input type="number" name="b" class="form-control" required="">
-				</div>
-				<div class="form-group">
-					<label class="control-lable">Satuan</label>
-					<input type="text" name="c" class="form-control" required="">
+					<input type="number" name="stock" class="form-control" required="">
 				</div>
 				<div class="form-group">
 					<label class="control-lable">Harga Jual</label>
-					<input type="number" name="d" class="form-control" required="">
-				</div>
-				<div class="form-group">
-					<label class="control-lable">Harga Beli</label>
-					<input type="number" name="e" class="form-control" required="">
-				</div>
-				<div class="form-group">
-					<label class="control-lable">Total Harga</label>
-					<input type="number" name="f"  class="form-control" required="">
+					<input type="number" name="jual" class="form-control" required="">
 				</div>
 				<div class="form-group">
 					<button type="submit" class="btn btn-success">Simpan</button>
@@ -58,10 +45,7 @@
 					<th>ID</th>
 					<th>Nama Barang</th>
 					<th>Stock</th>
-					<th>Satuan</th>
 					<th>Harga Jual</th>
-					<th>Harga Beli</th>
-					<th>Total Harga</th>
 					<th colspan="3">Action</th>
 				</tr>
 			</thead>
@@ -73,12 +57,9 @@
 					<td>{{$data->id}}</td>
 					<td>{{$data->nama}}</td>
 					<td>{{$data->stock}}</td>
-					<td>{{$data->satuan}}</td>
-					<td>{{$data->harga_jual}}</td>
-					<td>{{$data->harga_beli}}</td>
-					<td>{{$data->total_harga}}</td>
+					<td>Rp.{{$data->harga_jual}}</td>
 					<td>
-						<a class="btn btn-warning" href="/barang/{{$data->id}}/edit">Edit</a>
+						<a class="btn btn-warning" href="barang/{{$data->id}}/edit">Edit</a>
 					</td>
 					<td>
 						<form action="{{route('barang.destroy',$data->id)}}" method="post">
@@ -96,4 +77,5 @@
 	</div>
 </div>	
 </div>
+</body>
 @endsection

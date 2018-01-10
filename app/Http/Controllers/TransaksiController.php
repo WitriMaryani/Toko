@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Transaksi;
+use App\Barang;
+use Session;
 
 class TransaksiController extends Controller
 {
@@ -15,8 +17,9 @@ class TransaksiController extends Controller
     public function index()
     {
         //
+        $barang = Barang::all();
         $transaksi = Transaksi::all();
-        return view('transaksi.index',compact('transaksi'));
+        return view('transaksi.index',compact('transaksi','barang'));
     }
 
     /**
@@ -27,7 +30,12 @@ class TransaksiController extends Controller
     public function create()
     {
         //
-        return view('transaksi.create');
+        $barang = Barang::all();
+        $barang = Barang::findOrFail($barang->id_barang);
+        $jumlah=$barang->stock - $transaksi->jumlah_barang;
+        $barang->stock=$jumlah;
+        $barang->save();
+        return view('transaksi.create',compact('transaksi','barang'));
     }
 
     /**
@@ -38,11 +46,29 @@ class TransaksiController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $barang = Barang::findOrFail($request->barang);
         $transaksi = new Transaksi;
-        $transaksi->nama = $request->a;
-        $transaksi->save();
-        return redirect('transaksi');
+        
+        if ($request->jumlah_barang < $barang->stock) {
+            $barang = Barang::findOrFail($request->barang);
+            $waktu_transaksi = date('d-m-Y H:i:s');
+            $transaksi->id_barang = $request->barang;
+            $transaksi->jumlah_barang = $request->jumlah_barang;
+            $transaksi->total = $request->jumlah_barang * $barang->harga_jual;
+            $transaksi->save();
+
+            $barang = Barang::findOrFail($request->barang);
+            $jumlah=$barang->stock - $request->jumlah_barang;
+            $barang->stock = $jumlah;
+            $barang->save();
+        }else {
+            Session::flash("flash_notification", [
+                "level"=>"Peringatan!",
+                "message"=>"Maaf jumlah yang anda minta melebihi persediaan yang ada"
+            ]);
+        // return redirect()->route('transaksi.index');
+        }
+        return redirect()->route('transaksi.index');   
     }
 
     /**
@@ -66,9 +92,9 @@ class TransaksiController extends Controller
     {
         //
         $transaksi = Transaksi::findOrFail($id);
-        return view('transaksi.edit',compact('transaksi'));
+        $barang = Barang::all();
+        return view('transaksi.edit',compact('transaksi','barang'));
     }
-
     /**
      * Update the specified resource in storage.
      *
@@ -79,10 +105,31 @@ class TransaksiController extends Controller
     public function update(Request $request, $id)
     {
         //
+
+        $barang = Barang::findOrFail($request->barang);
         $transaksi = Transaksi::findOrFail($id);
-        $transaksi->nama = $request->a;
-        $transaksi->save();
-        return redirect('transaksi');
+        
+        if ($request->jumlah_barang < $barang->stock) {
+            $barang = Barang::findOrFail($request->barang);
+            $waktu_transaksi = date('d-m-Y H:i:s');
+            $transaksi->id_barang = $request->barang;
+            $transaksi->jumlah_barang = $request->jumlah_barang;
+            $transaksi->total = $request->jumlah_barang * $barang->harga_jual;
+            $transaksi->save();
+        }else {
+            Session::flash("flash_notification", [
+                "level"=>"Peringatan!",
+                "message"=>"Maaf jumlah yang anda minta melebihi persediaan yang ada"
+            ]);
+        return redirect()->route('transaksi.index');
+        }
+
+        $barang = Barang::findOrFail($request->barang);
+        $jumlah=$barang->stock - $request->jumlah_barang;
+        $barang->stock = $jumlah;
+        $barang->save();
+        return redirect()->route('transaksi.index');
+        
     }
 
     /**
@@ -94,8 +141,7 @@ class TransaksiController extends Controller
     public function destroy($id)
     {
         //
-        $transaksi = Transaksi::findOrFail($id);
-        $transaksi->delete();
-        return redirect('transaksi');
+       
+        
     }
 }

@@ -21,11 +21,13 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 
 
-Route::group(['prefix'=>'pemilik','middleware'=>['auth','role:admin']], function(){
+Route::group(['prefix'=>'pemilik','middleware'=>['auth','role:pemilik']], function(){
 	Route::resource('karyawan','KaryawanController');
+	Route::resource('laporan','LaporanController');
 });
 Route::group(['prefix'=>'karyawan','middleware'=>['auth','role:karyawan']], function(){
 	Route::resource('barang','BarangController');	
-	Route::resource('pelanggan','PelangganController');
 	Route::resource('transaksi','TransaksiController');
+	Route::resource('supplier','SupplierController');
+	Route::resource('pemasukan','PemasukanbarangController');
 });

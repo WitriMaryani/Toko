@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Pemasukanbarang;
+use App\PemasukanBarang;
+use App\Supplier;
+use App\Barang;
 
 class PemasukanbarangController extends Controller
 {
@@ -15,8 +17,10 @@ class PemasukanbarangController extends Controller
     public function index()
     {
         //
-        $pemasukan = Pemasukanbarang::all();
-        return view('pemasukan.index',compact('pemasukan'));
+        $barang = Barang::all();
+        $supplier = Supplier::all();
+        $pemasukanbarang = PemasukanBarang::all();
+        return view('pemasukan.index',compact('pemasukanbarang','supplier','barang'));
     }
 
     /**
@@ -27,7 +31,9 @@ class PemasukanbarangController extends Controller
     public function create()
     {
         //
-        return view('pemasukan.create');
+        $barang = Barang::all();
+        $supplier = Supplier::all();
+        return view('pemasukan.create',compact('pemasukanbarang','supplier','barang'));
     }
 
     /**
@@ -39,10 +45,18 @@ class PemasukanbarangController extends Controller
     public function store(Request $request)
     {
         //
-        $pemasukan = new Pemasukanbarang;
-        $pemasukan->nama = $request->a;
-        $pemasukan->save();
-        return redirect('pemasukan');
+
+        $pemasukanbarang = new PemasukanBarang;
+        $pemasukanbarang->id_supplier = $request->supplier;
+        $pemasukanbarang->id_barang = $request->barang;
+        $pemasukanbarang->jumlah = $request->jumlah;
+        $pemasukanbarang->save();
+
+        $barang = Barang::findOrFail($request->barang);
+        $jumlah=$barang->stock + $request->jumlah;
+        $barang->stock = $jumlah;
+        $barang->save();
+        return redirect()->route('pemasukan.index');
     }
 
     /**
@@ -65,8 +79,10 @@ class PemasukanbarangController extends Controller
     public function edit($id)
     {
         //
-        $pemasukan = Pemasukanbarang::findOrFail($id);
-        return view('pemasukan.edit',compact('pemasukan'));
+        $barang = Barang::all();
+        $supplier = Supplier::all();
+        $pemasukanbarang = Pemasukanbarang::findOrFail($id);
+        return view('pemasukan.edit',compact('pemasukan','supplier','barang'));
     }
 
     /**
@@ -79,10 +95,32 @@ class PemasukanbarangController extends Controller
     public function update(Request $request, $id)
     {
         //
-        $pemasukan = Pemasukanbarang::findOrFail($id);
-        $pemasukan->nama = $request->a;
-        $pemasukan->save();
-        return redirect('pemasukan');
+        // $barang = Barang::all();
+        // $supplier = Supplier::all();
+        // $pemasukanbarang = Pemasukanbarang::findOrFail($id);
+        // $pemasukanbarang->id_supplier = $request->supplier;
+        // $pemasukanbarang->id_barang = $request->barang;
+        // $pemasukanbarang->jumlah = $request->jumlah;
+        // $pemasukanbarang->save();
+
+        // $jumlah=$barang->stock - $pemasukanbarang->jumlah;
+        // $barang->stock=$jumlah;
+        // $barang->save();
+        // return redirect()->route('pemasukan.index');
+
+        $barang = Barang::all();
+        $supplier = Supplier::all();
+        $pemasukanbarang = Pemasukanbarang::findOrFail($id);
+        $pemasukanbarang->id_supplier = $request->supplier;
+        $pemasukanbarang->id_barang = $request->barang;
+        $pemasukanbarang->jumlah = $request->jumlah;
+        $pemasukanbarang->save();
+
+        $barang = Barang::findOrFail($request->barang);
+        $jumlah=$barang->stock - $request->jumlah;
+        $barang->stock = $jumlah;
+        $barang->save();
+        return redirect()->route('pemasukan.index');
     }
 
     /**
@@ -94,8 +132,14 @@ class PemasukanbarangController extends Controller
     public function destroy($id)
     {
         //
-        $pemasukan = Pemasukanbarang::findOrFail($id);
-        $pemasukan->delete();
-        return redirect('pemasukan');
+        $barang = Barang::all();
+        $supplier = Supplier::all();
+        $pemasukanbarang = Pemasukanbarang::findOrFail($id);
+        $barang = Barang::findOrFail($pemasukanbarang->id_barang);
+        $jumlah=$barang->stock - $pemasukanbarang->jumlah;
+        $barang->stock=$jumlah;
+        $barang->save();
+        $pemasukanbarang->delete();
+        return redirect()->route('pemasukan.index');
     }
 }

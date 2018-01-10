@@ -27,7 +27,8 @@ class BarangController extends Controller
     public function create()
     {
         //
-        return view('barang.create');
+        $barang = Barang::where('id');
+        return view('barang.create',compact('barang'));
     }
 
     /**
@@ -40,12 +41,9 @@ class BarangController extends Controller
     {
         //
         $barang = new Barang;
-        $barang->nama = $request->a;
-        $barang->stock = $request->b;
-        $barang->satuan = $request->c;
-        $barang->harga_jual = $request->d;
-        $barang->harga_beli = $request->e;
-        $barang->total_harga = $request->f;
+        $barang->nama = $request->nama;
+        $barang->stock = $request->stock;
+        $barang->harga_jual = $request->jual;
         $barang->save();
         return redirect()->route('barang.index');
     }
@@ -85,14 +83,11 @@ class BarangController extends Controller
     {
         //
         $barang = Barang::findOrFail($id);
-        $barang->nama = $request->a;
-        $barang->stock = $request->b;
-        $barang->satuan = $request->c;
-        $barang->harga_jual = $request->d;
-        $barang->harga_beli = $request->e;
-        $barang->total_harga = $request->f;
+        $barang->nama = $request->nama;
+        $barang->stock = $request->stock;
+        $barang->harga_jual = $request->jual;
         $barang->save();
-        return redirect('barang');
+        return redirect()->route('barang.index');
     }
     
 
@@ -105,8 +100,9 @@ class BarangController extends Controller
     public function destroy($id)
     {
         //
+        
         $barang = Barang::findOrFail($id);
         $barang->delete();
-        return redirect('barang');
+        return redirect()->route('barang.index');
     }
 }

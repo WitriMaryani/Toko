@@ -8,10 +8,10 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Toko Grosir') }}</title>
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/biru.css') }}" rel="stylesheet">
 </head>
 <body>
     <div id="app">
@@ -40,12 +40,13 @@
                         <li><a href="{{ url('/home')}}">Dashboard</a></li>
                         @endif
                         @role('pemilik')
-                        <li><a href="{{route('karyawan.index')}}">Karyawan</a></li>
+                        <li><a href="{{route('laporan.index')}}">Laporan</a></li>
                         @endrole
                         @role('karyawan')
-                        <li><a href="{{route('pelanggan.index')}}">Pelanggan</a></li>
                         <li><a href="{{route('barang.index')}}">Barang</a></li>
                         <li><a href="{{route('transaksi.index')}}">Transaksi</a></li>
+                        <li><a href="{{route('supplier.index')}}">Supplier</a></li>
+                        <li><a href="{{route('pemasukan.index')}}">Pemasukan Barang</a></li>
                         @endrole
                     </ul>
 
@@ -54,7 +55,6 @@
                         <!-- Authentication Links -->
                         @if (Auth::guest())
                             <li><a href="{{ route('login') }}">Login</a></li>
-                            <li><a href="{{ route('register') }}">Register</a></li>
                         @else
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">

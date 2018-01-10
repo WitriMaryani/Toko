@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Karyawan;
+use App\Laporan;
+use App\Transaksi;
 
-class KaryawanController extends Controller
+class LaporanController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +16,9 @@ class KaryawanController extends Controller
     public function index()
     {
         //
-        $karyawan = Karyawan::all();
-        return view('karyawan.index',compact('karyawan'));
+        $transaksi = Transaksi::all();
+        $laporan = Laporan::all();
+        return view('laporan.index',compact('laporan','transaksi'));
     }
 
     /**
@@ -27,7 +29,6 @@ class KaryawanController extends Controller
     public function create()
     {
         //
-        return view('karyawan.create');
     }
 
     /**
@@ -39,13 +40,6 @@ class KaryawanController extends Controller
     public function store(Request $request)
     {
         //
-        $karyawan = new Karyawan;
-        $karyawan->nama = $request->a;
-        $karyawan->jk = $request->b;
-        $karyawan->alamat = $request->c;
-        $karyawan->email = $request->d;
-        $karyawan->save();
-        return redirect('karyawan');
     }
 
     /**
@@ -68,8 +62,6 @@ class KaryawanController extends Controller
     public function edit($id)
     {
         //
-        $karyawan = Karyawan::findOrFail($id);
-        return view('karyawan.edit',compact('karyawan'));
     }
 
     /**
@@ -82,13 +74,6 @@ class KaryawanController extends Controller
     public function update(Request $request, $id)
     {
         //
-        $karyawan = Karyawan::findOrFail($id);
-        $karyawan->nama = $request->a;
-        $karyawan->jk = $request->b;
-        $karyawan->alamat = $request->c;
-        $karyawan->email = $request->d;
-        $karyawan->save();
-        return redirect('karyawan');
     }
 
     /**
@@ -100,8 +85,9 @@ class KaryawanController extends Controller
     public function destroy($id)
     {
         //
-        $karyawan = Karyawan::findOrFail($id);
-        $karyawan->delete();
-        return redirect('karyawan');
+        $transaksi = Transaksi::all();
+        $laporan = Laporan::findOrFail($id);
+        $laporan->delete();
+        return redirect()->route('laporan.index');
     }
 }

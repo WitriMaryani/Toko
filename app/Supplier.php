@@ -14,6 +14,6 @@ class Supplier extends Model
 
     public function pemasukan()
     {
-    	return $this->hasMany('App\Pemasukanbarang','supplier_id');
+    	return $this->hasMany('App\Pemasukanbarang','id_pb');
     }
 }

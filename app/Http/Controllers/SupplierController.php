@@ -18,7 +18,6 @@ class SupplierController extends Controller
         $supplier = Supplier::all();
         return view('supplier.index',compact('supplier'));
     }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -40,9 +39,11 @@ class SupplierController extends Controller
     {
         //
         $supplier = new Supplier;
-        $supplier->nama = $request->a;
+        $supplier->nama = $request->supplier;
+        $supplier->merk = $request->merk;
+        $supplier->no_hp = $request->no;
         $supplier->save();
-        return redirect()->route('pelanggan.index');
+        return redirect()->route('supplier.index');
     }
 
     /**
@@ -80,9 +81,11 @@ class SupplierController extends Controller
     {
         //
         $supplier = Supplier::findOrFail($id);
-        $supplier->nama = $request->a;
+        $supplier->nama = $request->supplier;
+        $supplier->merk = $request->merk;
+        $supplier->no_hp = $request->no;
         $supplier->save();
-        return redirect('supplier');
+        return redirect()->route('supplier.index');
     }
 
     /**
@@ -96,6 +99,6 @@ class SupplierController extends Controller
         //
         $supplier = Supplier::findOrFail($id);
         $supplier->delete();
-        return redirect('supplier');
+        return redirect()->route('supplier.index');
     }
 }

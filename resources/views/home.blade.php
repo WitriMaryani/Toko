@@ -1,17 +1,23 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Dashboard</div>
 
-                <div class="panel-body">
-                    Anda Berhasil Login
-                </div>
+     @role('pemilik')
+        <center>
+            <div class="panel-body">
+                <h1>Selamat Datang Di Tokoku</h1>
             </div>
-        </div>
-    </div>
-</div>
+                <img src="toko.jpg">
+         </center>
+    @endrole
+
+    @role('karyawan')
+        <center>
+            <div class="panel-body">
+                <h1>Selamat Bekerja</h1>
+            </div>
+                <img src="toko.jpg">
+        </center>
+    @endrole
+
 @endsection

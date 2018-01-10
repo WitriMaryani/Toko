@@ -8,12 +8,16 @@ class Barang extends Model
 {
     //
     protected $table = 'barangs';
-    protected $fillable = ['nama','stock','satuan','harga_jual','harga_beli','total_harga'];
-    protected $visible = ['nama','stock','satuan','harga_jual','harga_beli','total_harga'];
+    protected $fillable = ['stock','harga_jual'];
+    protected $visible = ['stock','harga_jual'];
     public $timestamps = true;
 
+    public function barang()
+    {
+    	return $this->hasMany('App\Barang','id_barang');
+    }
     public function transaksi()
     {
-    	return $this->hasMany('App\Transaksi','barang_id');
+    	return $this->belongsTo('App\transaksi','id_transaksi');
     }
 }

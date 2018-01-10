@@ -14,19 +14,15 @@
 				<input type="hidden" name="_token" value="{{csrf_token()}}">
 				<div class="form-group">
 					<label class="control-lable">Nama Barang</label>
-					<input type="text" name="a" value="{{$barang->nama}}" class="form-control" required="">
+					<input type="text" name="nama" value="{{$barang->nama}}" class="form-control" required="">
 				</div>
 				<div class="form-group">
 					<label class="control-lable">Stock</label>
-					<input type="number" name="b" value="{{$barang->stock}}" class="form-control" required="">
-				</div>
-				<div class="form-group">
-					<label class="control-lable">Satuan</label>
-					<input type="text" name="c" value="{{$barang->satuan}}" class="form-control" required="">
+					<input type="number" name="stock" value="{{$barang->stock}}" class="form-control" required="">
 				</div>
 				<div class="form-group">
 					<label class="control-lable">Harga Jual</label>
-					<input type="number" name="d" value="{{$barang->stock}}" class="form-control" required="">
+					<input type="number" name="jual" value="{{$barang->harga_jual}}" class="form-control" required="">
 				</div>
 				<div class="form-group">
 					<button type="submit" class="btn btn-success">Simpan</button>
@@ -36,3 +32,4 @@
 	</div>
 	</div>
 </div>
+@endsection
